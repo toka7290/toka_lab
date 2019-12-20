@@ -57,7 +57,7 @@ int main(int argc, char * argv[]){
   return 0;
 }
 
-int get_data(char * fname, NODE * top){
+int get_data(char * fname, NODE * top){//データ読み込み
   FILE * fp = fopen( fname, "r" );
   if(fp == NULL){
     fprintf( stderr, "file [%s] open error!¥n", fname );
@@ -80,24 +80,24 @@ int get_data(char * fname, NODE * top){
   return num;
 }
 
-NODE * append_node(NODE * tail, Data * data){
+NODE * append_node(NODE * tail, Data * data){//tailは1つ前のnode
   NODE *  node;
   node = (NODE * ) malloc( sizeof (NODE) );
   if(node == NULL) {
     fprintf( stderr, "error: cannot allocate memory!\n" );
     return NULL;
   }
-  tail->next = node;
+  tail->next = node;//tailの次はnode
 
-  strcpy(node->data.name, data->name);
-  node->data.point = data->point;
-  node->next = NULL;
-  node->prev = tail;
+  strcpy(node->data.name, data->name);//data入力
+  node->data.point = data->point;//data入力
+  node->next = NULL;//nodeの次はまだ作られていない
+  node->prev = tail;//nodeの一つ前はtail
 
   return node;
 }
 
-NODE * insert_node(NODE * prev, Data * data){
+NODE * insert_node(NODE * prev, Data * data){//未使用
   NODE * node = (NODE * ) malloc( sizeof (NODE) );
   if(node == NULL) {
     fprintf( stderr, "error: cannot allocate memory!\n" );
@@ -114,9 +114,9 @@ NODE * insert_node(NODE * prev, Data * data){
   return node;
 }
 
-NODE * del_node(NODE * target){
-  NODE * prev = target->prev;
-  NODE * next = target->next;
+NODE * del_node(NODE * target){//削除
+  NODE * prev = target->prev;//targetの次のnode
+  NODE * next = target->next;//targetの前のnode
 
   next->prev = prev;
   prev->next = next;
@@ -125,7 +125,7 @@ NODE * del_node(NODE * target){
   return prev;
 }
 
-void get_freq5(int * freq, NODE * top){
+void get_freq5(int * freq, NODE * top){//未使用
   NODE * node = top->next;
   while( node != NULL ){
     freq[node->data.point/5]++;
@@ -134,7 +134,7 @@ void get_freq5(int * freq, NODE * top){
   return;
 }
 
-void show_hist(int * freq){
+void show_hist(int * freq){//未使用
   int i,j;
   puts("#########################");
   for(i=0;i<LEVEL;i++){
@@ -146,7 +146,7 @@ void show_hist(int * freq){
   return;
 }
 
-void print_name(NODE * top,int point_){
+void print_name(NODE * top,int point_){//point_と合致するnameを印字
   NODE * node = top->next;
   puts("-------------------------");
   while( node != NULL ){
@@ -159,7 +159,7 @@ void print_name(NODE * top,int point_){
   return;
 }
 
-void append_max(NODE * top,int point_){
+void append_max(NODE * top,int point_){//最大得点の1つ後ろに"*max*"を追加
   NODE * node = top->next;
   while(node != NULL){
     if(point_ == node->data.point){
@@ -173,13 +173,10 @@ void append_max(NODE * top,int point_){
   return;
 }
 
-void delete_max(NODE * top,int point_){
+void delete_max(NODE * top,int point_){//pointと合致するnodeを削除
   NODE * node = top->next;
   while(node != NULL){
     if(point_ == node->data.point){
-      Data max;
-      strcpy(max.name,"* max* ");
-      max.point = 111;
       node = del_node(node);
     }
     node = node->next;
@@ -187,7 +184,7 @@ void delete_max(NODE * top,int point_){
   return;
 }
 
-int search_min(NODE *  top){
+int search_min(NODE * top){//最低点を検索
   NODE * node = top->next;
   puts("#########################");
   int minpoint = 100;
@@ -199,7 +196,7 @@ int search_min(NODE *  top){
   return minpoint;
 }
 
-int search_max(NODE *  top){
+int search_max(NODE * top){//最高点を検索
   NODE * node = top->next;
   puts("#########################");
   int maxpoint = 0;
@@ -211,7 +208,7 @@ int search_max(NODE *  top){
   return maxpoint;
 }
 
-void print_all_node(NODE *  top){
+void print_all_node(NODE * top){//全てのnodeを印字
   NODE * node = top->next;
   while( node != NULL ){
     printf( "%s : %3d\n", node->data.name ,node->data.point );
@@ -220,7 +217,7 @@ void print_all_node(NODE *  top){
   return;
 }
 
-void free_node(NODE * top){
+void free_node(NODE * top){//メモリ解放
   NODE * node = top->next;
   NODE * temp;
   while(node!=NULL){
